@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory android:key="cat_start_weights" android:title="Starting Weights"><EditTextPreference android:dialogTitle="Squat" android:title="Squat" android:key="start_weight_squat" android:defaultValue="45"/>
+    <EditTextPreference android:title="Bench Press" android:key="start_weight_bench" android:defaultValue="45"/>
+    <EditTextPreference android:key="start_weight_row" android:title="Pendlay Row" android:defaultValue="45"/>
+    <EditTextPreference android:key="start_weight_ohp" android:title="Over Head Press" android:defaultValue="45"/>
+    <EditTextPreference android:key="start_weight_deadlift" android:defaultValue="135" android:title="Deadlift"/>
+</PreferenceCategory>
+    
+
+</PreferenceScreen>

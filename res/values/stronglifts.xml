@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="plan_name">Strong Lifts</string>
+    <string name="sl_squat">Squat</string>
+    <string name="sl_bench">Bench Press</string>
+    <string name="sl_row">Pendlay Row</string>
+    <string name="sl_ohp">Over-head Press</string>
+    <string name="sl_dl">Deadlift</string>
+    <string name="col_name">Exercise</string>
+    <string name="col_start">Start Weight</string>
+    <string name="col_increase">Increase By</string>
+    <string name="weight_unit">lbs</string>
+
+</resources>

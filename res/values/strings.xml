@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lift Strong</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="img_not_found">Image Not Found</string>
+    <string name="title_activity_log">LogActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_plan_selector">PlanSelectorActivity</string>
+    <string name="title_activity_sl5x5">SL5x5Activity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_strong_lifts">StrongLiftsActivity</string>
+
+</resources>

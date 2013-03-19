@@ -1,0 +1,170 @@
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".StrongLiftsSettingsFragment"
+    app:columnCount="3"
+    app:rowCount="6" xmlns:app1="http://schemas.android.com/apk/res/com.dmham.liftstrong">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_height="wrap_content"
+        android:text="@string/col_name" 
+        app:layout_column="0"
+        app:layout_gravity="fill_horizontal"
+        app:layout_row="0" />
+    
+	<TextView
+        android:id="@+id/tv_start"
+        android:layout_height="wrap_content"
+        android:text="@string/col_start"
+        app:layout_column="1"
+        app:layout_gravity="fill_horizontal"
+        app:layout_row="0" />
+
+	<TextView
+        android:id="@+id/tv_increase"
+        android:layout_height="wrap_content"
+        android:text="@string/col_increase"
+        app:layout_column="2"
+        app:layout_gravity="fill_horizontal"
+        app:layout_row="0" />
+    
+    <TextView
+        android:id="@+id/tv_squat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sl_squat" 
+        app:layout_column="0"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="1" />
+
+    <EditText
+        android:id="@+id/et_start_squat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="1"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="1" />
+
+    <EditText
+        android:id="@+id/et_increase_squat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="2"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="1" />
+    
+    <TextView
+        android:id="@+id/tv_bench"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sl_bench" 
+        app:layout_column="0"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="2" />
+
+    <EditText
+        android:id="@+id/et_start_bench"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="1"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="2" />
+
+    <EditText
+        android:id="@+id/et_increase_bench"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="2"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="2" />
+    
+    <TextView
+        android:id="@+id/tv_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sl_row" 
+        app:layout_column="0"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="3" />
+
+    <EditText
+        android:id="@+id/et_start_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="1"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="3" />
+
+    <EditText
+        android:id="@+id/et_increase_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="2"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="3" />
+    
+    <TextView
+        android:id="@+id/tv_ohp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sl_ohp" 
+        app:layout_column="0"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="4" />
+
+    <EditText
+        android:id="@+id/et_start_ohp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="1"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="4" />
+
+    <EditText
+        android:id="@+id/et_increase_ohp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="2"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="4" />
+    
+    <TextView
+        android:id="@+id/tv_dl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sl_dl" 
+        app:layout_column="0"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="5" />
+
+    <EditText
+        android:id="@+id/et_start_dl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="1"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="5" />
+
+    <EditText
+        android:id="@+id/et_increase_dl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_column="2"
+     	app:layout_gravity="fill_horizontal"
+     	app:layout_row="5" />
+
+ </android.support.v7.widget.GridLayout>

@@ -1,0 +1,128 @@
+<FitnessPlan name="Strong Lifts 5x5" repeats="16">
+    <WorkoutPlan name="Day A">
+           <Exercise>
+               <ExerciseName type="text">Squat</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+           </Exercise>
+           <Exercise>
+               <ExerciseName type="text">Bench Press</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+           </Exercise>
+           <Exercise>
+               <ExerciseName type="text">Row</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+           </Exercise>
+    </WorkoutPlan>
+   	<WorkoutPlan name="Day B">
+		<Exercise>
+               <ExerciseName type="text">Squat</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">50</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">50</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">50</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">50</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">50</weight>
+	           </ExerciseSet>
+           </Exercise>
+           <Exercise>
+               <ExerciseName type="text">OHP</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">45</weight>
+	           </ExerciseSet>
+           </Exercise>
+           <Exercise>
+               <ExerciseName type="text">Deadlift</ExerciseName>
+	           <ExerciseSet>
+	                <reps type="text">5</reps>
+	                <weight type="text">135</weight>
+	           </ExerciseSet>
+           </Exercise>
+    </WorkoutPlan>
+</FitnessPlan>

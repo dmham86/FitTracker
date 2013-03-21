@@ -67,7 +67,9 @@ public class PlanSelectorActivity extends Activity {
 					public void onClick(View v) {
 						//state.putString("plan", action);
 						//editPlanSettings(action);
+						Resources res = getResources();
 						Intent i = new Intent(getApplicationContext(), StrongLiftsActivity.class);
+						i.putExtra(res.getString(R.string.fitness_plan_action), res.getString(R.string.fitness_plan_action_reset));
 						startActivity(i);
 					}
 				});

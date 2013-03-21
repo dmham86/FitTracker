@@ -1,6 +1,8 @@
 package com.dmham.lifstrong.plans;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
 
 import com.dmham.lifstrong.database.DatabaseHelper;
 import com.dmham.liftstrong.R;
@@ -17,10 +19,15 @@ import com.j256.ormlite.dao.ForeignCollection;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 
 public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
@@ -29,6 +36,7 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private Dao<ExerciseLog, Integer> exLogDao;
 	private Dao<ExerciseSet, Integer> exSetDao;
 	private Dao<Exercise, Integer> exDao;
+	private static final String PLAN_NAME = "Strong Lifts";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,19 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Resources res = getResources();
+		
+		Intent i = getIntent();
+		String planAction = i.getStringExtra(res.getString(R.string.fitness_plan_action));
+		
+		if(planAction == null) {
+			return;
+		}
 		try {
 			fitPlanDao = getHelper().getFitnessPlanDao();
 			workPlanDao = getHelper().getWorkoutPlanDao();
@@ -48,22 +69,68 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			e1.printStackTrace();
 		}
 		
-		Integer fitPlanId = 1;
-		Exercise ex;
-		FitnessPlan fp = null;
-		/*
+		if(planAction.equals(res.getString(R.string.fitness_plan_action_reset)) ) {
+			resetPlan();
+		}
+		else if(planAction == res.getString(R.string.fitness_plan_action_log) ) {
+			logWorkout();
+		}
+
+	}
+	
+	private void logWorkout(){
+		
+	}
+	
+	private void resetPlan() {
+		List<FitnessPlan> fitPlans = null;
 		try {
-			fp = fitPlanDao.queryForId(fitPlanId);
+			fitPlans = fitPlanDao.queryForEq("name", PLAN_NAME);
 		} catch (SQLException e) {
 			throw new RuntimeException("Could not lookup FitnessPlan in the database", e);
 		}
-		*/
-		if(fp == null)
+		
+		if(fitPlans.isEmpty()) {
 			generateStrongLifts();
+		}
+		else {
+			Context cntx = StrongLiftsActivity.this;
+			AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+			builder.setMessage(R.string.fitness_plan_reset_dlg_msg)
+		       .setTitle(R.string.fitness_plan_reset_dlg_title);
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User clicked OK button
+		        	   generateStrongLifts();
+		           }
+		       });
+			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User cancelled the dialog
+		        	   dialog.cancel();
+		           }
+		       });
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		}
+		
 	}
-	
+	private void clearStrongLifts() {
+		List<FitnessPlan> fitPlans = null;
+		try {
+			fitPlans = fitPlanDao.queryForEq("name", PLAN_NAME);
+			for( FitnessPlan fp:fitPlans) {
+				Collection<WorkoutPlan> workPlans = workPlanDao.queryForEq(WorkoutPlan.FITNESS_PLAN_ID_FIELD_NAME,fp.getPlanId());
+				workPlanDao.delete(workPlans);
+			}
+			fitPlanDao.delete(fitPlans);
+		} catch (SQLException e) {
+			throw new RuntimeException("Could not lookup FitnessPlan in the database", e);
+		}
+	}
 	private void generateStrongLifts(){
-		FitnessPlan slPlan = new FitnessPlan("Strong Lifts");
+		clearStrongLifts();
+		FitnessPlan slPlan = new FitnessPlan(PLAN_NAME);
 		
 		// Create the days
 		WorkoutPlan aPlan = new WorkoutPlan("Day A");

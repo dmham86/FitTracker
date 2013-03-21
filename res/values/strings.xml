@@ -11,5 +11,7 @@
     <string name="title_activity_sl5x5">SL5x5Activity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_strong_lifts">StrongLiftsActivity</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

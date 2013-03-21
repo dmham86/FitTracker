@@ -7,9 +7,11 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
 public class FitnessPlan {
+	public static final String NAME_FIELD_NAME = "name";
+	
 	@DatabaseField(generatedId = true)
 	private Integer _id;
-	@DatabaseField
+	@DatabaseField(columnName=NAME_FIELD_NAME)
 	private String name = "";
 	@ForeignCollectionField(eager = false)
 	private ForeignCollection<WorkoutPlan> workouts;

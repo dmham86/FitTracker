@@ -9,13 +9,16 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class WorkoutPlan {
+	public static final String NAME_FIELD_NAME = "name";
+	public static final String FITNESS_PLAN_ID_FIELD_NAME = "fitnessPlan_id";
+	
 	@DatabaseField(generatedId = true)
 	private Integer _id;
-	@DatabaseField
+	@DatabaseField(columnName=NAME_FIELD_NAME)
 	private String name;
 	@ForeignCollectionField(eager = false)
 	private ForeignCollection<ExerciseLog> exerciseLogs;
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName=FITNESS_PLAN_ID_FIELD_NAME)
 	private FitnessPlan fitnessPlan;
 	
 	//ORMLite needs blank constructor

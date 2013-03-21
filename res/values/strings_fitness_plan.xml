@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fitness_plan_action">action</string>
+    <string name="fitness_plan_action_log">log</string>
+    <string name="fitness_plan_action_history">history</string>
+    <string name="fitness_plan_action_reset">reset</string>
+    <string name="fitness_plan_reset_dlg_msg">Reset Fitness Plan? All current data will be lost!</string>
+    <string name="fitness_plan_reset_dlg_title">Reset?</string>
+</resources>

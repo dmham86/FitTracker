@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dmham.liftstrong"
-    android:versionCode="8"
+    android:versionCode="9"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -36,6 +36,7 @@
             android:name="com.dmham.liftstrong.PlanSelectorActivity"
             android:label="@string/title_activity_plan_selector" 
             android:parentActivityName="com.dmham.lifstrong.MainActivity" >
+            <meta-data android:value="com.dmham.liftstrong.MainActivity" android:name="android.support.PARENT_ACTIVITY"/>
         </activity>
         <activity
             android:name="com.dmham.lifstrong.plans.StrongLiftsActivity"

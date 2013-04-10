@@ -10,18 +10,26 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class WorkoutLog {
-	@DatabaseField(generatedId = true)
+	public static final String ID_FIELD_NAME = "_id";
+	public static final String DATE_FIELD_NAME = "date";
+	public static final String WORKOUT_PLAN_ID_FIELD_NAME = "workoutPlan_id";
+	
+	@DatabaseField(generatedId = true, columnName=ID_FIELD_NAME)
 	private Integer _id;
-	@DatabaseField
+	@DatabaseField(columnName=DATE_FIELD_NAME)
 	private Date date;
 	@DatabaseField
 	private String comments;
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName=WORKOUT_PLAN_ID_FIELD_NAME)
 	WorkoutPlan workoutPlan;
 	@ForeignCollectionField(eager = false)
 	private ForeignCollection<ExerciseLog> exerciseLogs;
 	
 	public WorkoutLog() {
+	}
+	
+	public WorkoutLog(Date date) {
+		this.date = date;
 	}
 	
 	/**

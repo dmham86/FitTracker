@@ -144,18 +144,24 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		Exercise ohp   = new Exercise("Over-Head Press", "Standing up, bring the bar down to your chin and push upward, extending arms fully.");
 		Exercise dl    = new Exercise("Deadlift", "Bent over, with back straight and knees bent, begin to straighten legs, lifting the bar. Then thrust your hips forward while lifting the bar.");
 		
-		ExerciseLog squatLog = new ExerciseLog(squat);
-		ExerciseLog benchLog = new ExerciseLog(bench);
-		ExerciseLog rowLog = new ExerciseLog(row);
-		ExerciseLog ohpLog = new ExerciseLog(ohp);
-		ExerciseLog dlLog = new ExerciseLog(dl);
-		
 		// Make the starting weights and reps
 		ExerciseSet mainSet = new ExerciseSet(5, 45.0f);
 		ExerciseSet dlSet = new ExerciseSet(5, 135.0f);
 		
 		// Start database entry
 		try {
+			exDao.create(squat);
+			exDao.create(bench);
+			exDao.create(row);
+			exDao.create(ohp);
+			exDao.create(dl);
+			
+			ExerciseLog squatLog = new ExerciseLog(squat);
+			ExerciseLog benchLog = new ExerciseLog(bench);
+			ExerciseLog rowLog = new ExerciseLog(row);
+			ExerciseLog ohpLog = new ExerciseLog(ohp);
+			ExerciseLog dlLog = new ExerciseLog(dl);
+		
 			fitPlanDao.create(slPlan);
 			//workPlanDao.create(aPlan);
 			//workPlanDao.create(bPlan);
@@ -186,17 +192,16 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			
 			//exSetDao.create(mainSet);
 			//exSetDao.create(dlSet);
-			Integer mainId = mainSet.getId();
 			ForeignCollection<ExerciseSet> exerciseSetsSquat = exLogDao.queryForId(squatLog.getId()).getSets();
 			ForeignCollection<ExerciseSet> exerciseSetsBench = exLogDao.queryForId(benchLog.getId()).getSets();
 			ForeignCollection<ExerciseSet> exerciseSetsRow = exLogDao.queryForId(rowLog.getId()).getSets();
 			ForeignCollection<ExerciseSet> exerciseSetsOhp = exLogDao.queryForId(ohpLog.getId()).getSets();
 			ForeignCollection<ExerciseSet> exerciseSetsDl = exLogDao.queryForId(dlLog.getId()).getSets();
 			for(int i = 0; i < 5; i++) {
-				exerciseSetsSquat.add(mainSet);
-				exerciseSetsBench.add(mainSet);
-				exerciseSetsRow.add(mainSet);
-				exerciseSetsOhp.add(mainSet);
+				exerciseSetsSquat.add(new ExerciseSet(5, 45.0f));
+				exerciseSetsBench.add(new ExerciseSet(5, 45.0f));
+				exerciseSetsRow.add(new ExerciseSet(5, 45.0f));
+				exerciseSetsOhp.add(new ExerciseSet(5, 45.0f));
 			}
 			exerciseSetsDl.add(dlSet);
 		} catch (SQLException e1) {

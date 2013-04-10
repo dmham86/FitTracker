@@ -10,7 +10,9 @@ public class ExerciseSet {
 	private static final float MIN_WEIGHT = -400;
 	private static final float MAX_WEIGHT = 1200;
 	
-	@DatabaseField(generatedId = true)
+	public static final String ID_FIELD_NAME = "_id";
+	
+	@DatabaseField(generatedId = true, columnName=ID_FIELD_NAME)
 	private Integer _id;
 	@DatabaseField(useGetSet = true)
 	private int reps;

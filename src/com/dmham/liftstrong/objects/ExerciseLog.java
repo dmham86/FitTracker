@@ -9,7 +9,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class ExerciseLog {
-	@DatabaseField(generatedId = true)
+	public static final String ID_FIELD_NAME = "_id";
+	
+	@DatabaseField(generatedId = true, columnName=ID_FIELD_NAME)
 	private Integer _id;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Exercise exercise;

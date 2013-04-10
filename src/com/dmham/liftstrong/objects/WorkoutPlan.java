@@ -9,10 +9,11 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class WorkoutPlan {
+	public static final String ID_FIELD_NAME = "_id";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String FITNESS_PLAN_ID_FIELD_NAME = "fitnessPlan_id";
 	
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId = true, columnName=ID_FIELD_NAME)
 	private Integer _id;
 	@DatabaseField(columnName=NAME_FIELD_NAME)
 	private String name;

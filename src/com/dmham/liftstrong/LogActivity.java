@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,7 +57,7 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log);
 		
-		final Context context = getApplicationContext();
+		final Context context = this;
 		
 		workLog = new WorkoutLog(new Date());
 		
@@ -114,6 +115,12 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 					public boolean onLongClick(View v) {
 						final TextView tv_weight   = (TextView) v.findViewById(R.id.ex_set_weight);
 						final EditText et_weight = new EditText(context);
+						
+						// Show the number keyboard
+						et_weight.setInputType(InputType.TYPE_CLASS_PHONE);
+						et_weight.setRawInputType(InputType.TYPE_CLASS_PHONE);
+						
+						et_weight.setText(tv_weight.getText());
 						AlertDialog.Builder builder = new AlertDialog.Builder(context);
 						builder.setMessage("Weight")
 					       .setTitle("Enter Weight");

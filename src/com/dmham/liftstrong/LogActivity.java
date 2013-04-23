@@ -20,14 +20,25 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -83,6 +94,15 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		
 		LinearLayout exerciseLogLayout = (LinearLayout)findViewById(R.id.ll_logList);
 		
+		Resources resources = getResources();
+		int px = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, resources.getDisplayMetrics()));
+		int width = px;
+		int height = px;
+		int cx = width/2;
+		int cy = height/2;
+		Paint paint = new Paint();
+		paint.setColor(Color.LTGRAY);
+		
       // Update the TextView Text
 		for(ExerciseLog log : exLogs) {
 		//ExerciseLog log = (ExerciseLog) exLogs.toArray()[0];
@@ -99,7 +119,21 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				final View setView = logInflater.inflate(R.layout.exercise_set_item, exerciseSetLayout,false);
 				TextView tv_reps   = (TextView) setView.findViewById(R.id.ex_set_reps);
 				TextView tv_weight = (TextView) setView.findViewById(R.id.ex_set_weight);
-				ImageView iv_img = (ImageView) setView.findViewById(R.id.menu_item_img);
+				ImageView iv_img = (ImageView) setView.findViewById(R.id.ex_set_img);
+				
+				Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+				Canvas c = new Canvas(bmp);
+				c.drawCircle(cx, cy, cx, paint);
+				
+				iv_img.setImageBitmap(bmp);
+				
+				/*
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+					draw(iv_img, resources, bmp);
+				else
+					drawDep(iv_img, resources, bmp);
+					*/
 				
 				tv_reps.setText(Integer.toString(set.getReps()));
 		        tv_weight.setText( Float.toString(set.getWeight()) );
@@ -150,6 +184,17 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		}
 		
        
+	}
+
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.ECLAIR_MR1)
+	private void drawDep(ImageView iv_img, Resources resources, Bitmap bmp) {
+		iv_img.setBackgroundDrawable(new BitmapDrawable(resources, bmp));
+	}
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void draw(ImageView iv_img, Resources resources, Bitmap bmp) {
+		iv_img.setBackground(new BitmapDrawable(resources, bmp));
 	}
 
 	private void getWorkoutPlan() throws SQLException {

@@ -78,4 +78,16 @@ public class WorkoutLog {
 		return exerciseLogs;
 	}
 
+	/**
+	 * @return the _id
+	 */
+	public Integer getId() {
+		return _id;
+	}
+	/**
+	 * @param _id the _id to set
+	 */
+	public void setId(Integer id) {
+		this._id = id;
+	}
 }

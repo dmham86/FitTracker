@@ -22,6 +22,7 @@ public class ExerciseSet {
 	private boolean assist = false;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private ExerciseLog exerciseLog;
+	private boolean enabled = false;
 	
 	public ExerciseSet() {
 		setReps((int)0);
@@ -102,6 +103,14 @@ public class ExerciseSet {
 	 */
 	public void setExerciseLog(ExerciseLog exerciseLog) {
 		this.exerciseLog = exerciseLog;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

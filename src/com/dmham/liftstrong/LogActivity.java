@@ -1,6 +1,7 @@
 package com.dmham.liftstrong;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,6 +18,7 @@ import com.dmham.liftstrong.objects.WorkoutLog;
 import com.dmham.liftstrong.objects.WorkoutPlan;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -37,11 +39,14 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.InputType;
+import android.text.format.Time;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +61,9 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private Dao<ExerciseLog, Integer> exLogDao;
 	private Dao<ExerciseSet, Integer> exSetDao;
 	private Dao<Exercise, Integer> exDao;
+	private int width, height, cx, cy;
+	
+	private Collection<ExerciseLog> exLogs;
 	
 	private WorkoutLog workLog;
 	private WorkoutPlan workPlan;
@@ -90,18 +98,18 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		tv_fitPlanName.setText(workPlan.getFitnessPlan().getName());
 		tv_workPlanName.setText(workPlan.getName());
 		
-		Collection<ExerciseLog> exLogs = (Collection<ExerciseLog>) workPlan.getExerciseLogs();
+		exLogs = (Collection<ExerciseLog>) workPlan.getExerciseLogs();
 		
 		LinearLayout exerciseLogLayout = (LinearLayout)findViewById(R.id.ll_logList);
 		
 		Resources resources = getResources();
 		int px = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, resources.getDisplayMetrics()));
-		int width = px;
-		int height = px;
-		int cx = width/2;
-		int cy = height/2;
-		Paint paint = new Paint();
-		paint.setColor(Color.LTGRAY);
+		width = px;
+		height = px;
+		cx = width/2;
+		cy = height/2;
+		Paint paintGray = new Paint();
+		paintGray.setColor(Color.LTGRAY);
 		
       // Update the TextView Text
 		for(ExerciseLog log : exLogs) {
@@ -114,18 +122,18 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			LinearLayout exerciseSetLayout = (LinearLayout)logView.findViewById(R.id.ll_setList);
 			
 	        // Update the TextView Text
-			for(ExerciseSet set : log.getSets()) {
+			for(final ExerciseSet set : log.getSets()) {
 				LayoutInflater logInflater = LayoutInflater.from(logView.getContext());
 				final View setView = logInflater.inflate(R.layout.exercise_set_item, exerciseSetLayout,false);
-				TextView tv_reps   = (TextView) setView.findViewById(R.id.ex_set_reps);
-				TextView tv_weight = (TextView) setView.findViewById(R.id.ex_set_weight);
-				ImageView iv_img = (ImageView) setView.findViewById(R.id.ex_set_img);
+				final TextView tv_reps   = (TextView) setView.findViewById(R.id.ex_set_reps);
+				final TextView tv_weight = (TextView) setView.findViewById(R.id.ex_set_weight);
+				final ImageView iv_img = (ImageView) setView.findViewById(R.id.ex_set_img);
+				iv_img.setEnabled(false);
 				
-				Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+				final Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
-				Canvas c = new Canvas(bmp);
-				c.drawCircle(cx, cy, cx, paint);
-				
+				final Canvas c = new Canvas(bmp);
+				c.drawCircle(cx, cy, cx, paintGray);
 				iv_img.setImageBitmap(bmp);
 				
 				/*
@@ -137,42 +145,38 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				
 				tv_reps.setText(Integer.toString(set.getReps()));
 		        tv_weight.setText( Float.toString(set.getWeight()) );
+		        setView.setOnFocusChangeListener(new View.OnFocusChangeListener() {				
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						set.setReps(Integer.parseInt(tv_reps.getText().toString()));
+						set.setWeight(Float.parseFloat(tv_weight.getText().toString()));
+						set.setEnabled(true);
+					}
+				});
 		        setView.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						if(!iv_img.isEnabled()) {
+							enableSet(iv_img, c, bmp);
+						}
+						iv_img.setImageBitmap(bmp);
 						TextView tv_reps   = (TextView) v.findViewById(R.id.ex_set_reps);
-						tv_reps.setText(String.valueOf(Integer.parseInt(tv_reps.getText().toString() ) + 1 ));
+						int reps = Integer.parseInt(tv_reps.getText().toString() );
+						if(reps > 0) {
+							tv_reps.setText(String.valueOf( reps - 1 ));
+						}
+						else {
+							setWeightAndReps(context,v);
+						}
 					}
 				});
 		        setView.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v) {
-						final TextView tv_weight   = (TextView) v.findViewById(R.id.ex_set_weight);
-						final EditText et_weight = new EditText(context);
-						
-						// Show the number keyboard
-						et_weight.setInputType(InputType.TYPE_CLASS_PHONE);
-						et_weight.setRawInputType(InputType.TYPE_CLASS_PHONE);
-						
-						et_weight.setText(tv_weight.getText());
-						AlertDialog.Builder builder = new AlertDialog.Builder(context);
-						builder.setMessage("Weight")
-					       .setTitle("Enter Weight");
-						builder.setView(et_weight);
-						builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					               // User clicked OK button
-					        	   tv_weight.setText(et_weight.getText());
-					           }
-					       });
-						builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					               // User cancelled the dialog
-					        	   dialog.cancel();
-					           }
-					       });
-						AlertDialog dialog = builder.create();
-						dialog.show();
+						if(!iv_img.isEnabled()) {
+							enableSet(iv_img, c, bmp);
+						}
+						setWeightAndReps(context,v);
 						return true;
 					}
 				});
@@ -183,7 +187,72 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			exerciseLogLayout.addView(logView);
 		}
 		
-       
+		Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
+		btnSubmit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				saveWorkout();
+			}
+		});
+		
+		
+	}
+	
+	private void enableSet(ImageView iv_img, Canvas c, Bitmap bmp) {
+		if(iv_img == null)
+			return;
+		Paint paintEnabled = new Paint();
+		paintEnabled.setColor(0xdd00dd00);
+
+		c.drawCircle(cx, cy, cx, paintEnabled);
+		
+		iv_img.setImageBitmap(bmp);
+		iv_img.setEnabled(true);
+	}
+	
+	private void setWeightAndReps(Context context, View v) {
+		final TextView tv_weight   = (TextView) v.findViewById(R.id.ex_set_weight);
+		final TextView tv_reps   = (TextView) v.findViewById(R.id.ex_set_reps);
+		View layout = getLayoutInflater().inflate(R.layout.exercise_set_form, (ViewGroup) v, false);
+		final EditText et_weight = (EditText) layout.findViewById(R.id.et_weight);
+		final EditText et_reps = (EditText) layout.findViewById(R.id.et_reps);
+		
+		et_weight.setText(tv_weight.getText());
+		et_reps.setText(tv_reps.getText());
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setView(layout);
+		//builder.setView(et_weight);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User clicked OK button
+	        	   // Set weight and reps in setView to form value
+	        	   DecimalFormat format = new DecimalFormat("##.#");
+	        	   try {
+		        	   Float weight = Float.parseFloat(et_weight.getText().toString());
+		        	   if(weight > 0.0 && weight < 1200.0)
+		        		   tv_weight.setText(format.format(weight));
+	        	   }
+	        	   catch (NumberFormatException e) {
+	        		   
+	        	   }
+	        	   try {
+		        	   int numReps = Integer.parseInt(et_reps.getText().toString());
+		        	   if(numReps > 0 && numReps < 100)
+		        		   tv_reps.setText(et_reps.getText());
+	        	   }
+	        	   catch (NumberFormatException e) {
+	        		   
+	        	   }
+	           }
+	       });
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User cancelled the dialog
+	        	   dialog.cancel();
+	           }
+	       });
+		AlertDialog dialog = builder.create();
+		dialog.show();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -238,6 +307,39 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		
 		workLog.setWorkoutPlan(workPlan);
 		
+	}
+	
+	private void saveWorkout() {
+		ForeignCollection<ExerciseLog> newExLogs = null;
+		try {
+			Date date = new Date();
+			WorkoutLog workLog = new WorkoutLog(date);
+			workLogDao.create(workLog);
+			newExLogs = workLogDao.queryForId(workLog.getId()).getExerciseLogs();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(newExLogs == null)
+			return;
+		for(ExerciseLog log : exLogs) {
+			ForeignCollection<ExerciseSet> newExSets = null;
+			try {
+				//exLogDao.create(log);
+				newExLogs.add(log);
+				newExSets = exLogDao.queryForId(log.getId()).getSets();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(newExSets == null)
+				continue;
+			for(final ExerciseSet set : log.getSets()) {
+				if(set.isEnabled()) {
+					newExSets.add(set);
+				}
+			}
+		}
 	}
 
 	@Override

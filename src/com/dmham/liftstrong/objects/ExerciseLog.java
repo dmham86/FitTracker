@@ -26,6 +26,13 @@ public class ExerciseLog {
 	public ExerciseLog() {
 	}
 	
+	// Copy constructor
+	public ExerciseLog(ExerciseLog log) {
+		setExercise(log.getExercise());
+		setWorkoutLog(log.getWorkoutLog());
+		setWorkoutPlan(log.getWorkoutPlan());
+	}
+	
 	public ExerciseLog(Exercise exercise) {
 		this.setExercise(exercise);
 	}

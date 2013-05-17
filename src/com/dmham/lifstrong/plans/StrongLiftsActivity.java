@@ -144,10 +144,6 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		Exercise ohp   = new Exercise("Over-Head Press", "Standing up, bring the bar down to your chin and push upward, extending arms fully.");
 		Exercise dl    = new Exercise("Deadlift", "Bent over, with back straight and knees bent, begin to straighten legs, lifting the bar. Then thrust your hips forward while lifting the bar.");
 		
-		// Make the starting weights and reps
-		ExerciseSet mainSet = new ExerciseSet(5, 45.0f);
-		ExerciseSet dlSet = new ExerciseSet(5, 135.0f);
-		
 		// Start database entry
 		try {
 			exDao.create(squat);
@@ -159,6 +155,7 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			ExerciseLog squatLog = new ExerciseLog(squat);
 			ExerciseLog benchLog = new ExerciseLog(bench);
 			ExerciseLog rowLog = new ExerciseLog(row);
+			ExerciseLog squatLog2 = new ExerciseLog(squat);
 			ExerciseLog ohpLog = new ExerciseLog(ohp);
 			ExerciseLog dlLog = new ExerciseLog(dl);
 		
@@ -186,7 +183,7 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			exerciseLogs.add(benchLog);
 			exerciseLogs.add(rowLog);
 			exerciseLogs = workPlanDao.queryForId(bPlan.getPlanId()).getExerciseLogs();
-			exerciseLogs.add(squatLog);
+			exerciseLogs.add(squatLog2);
 			exerciseLogs.add(ohpLog);
 			exerciseLogs.add(dlLog);
 			
@@ -203,7 +200,7 @@ public class StrongLiftsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				exerciseSetsRow.add(new ExerciseSet(5, 45.0f));
 				exerciseSetsOhp.add(new ExerciseSet(5, 45.0f));
 			}
-			exerciseSetsDl.add(dlSet);
+			exerciseSetsDl.add(new ExerciseSet(5, 135.0f));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

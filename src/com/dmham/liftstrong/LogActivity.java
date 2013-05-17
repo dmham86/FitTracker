@@ -159,14 +159,16 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 						if(!iv_img.isEnabled()) {
 							enableSet(iv_img, c, bmp);
 						}
-						iv_img.setImageBitmap(bmp);
-						TextView tv_reps   = (TextView) v.findViewById(R.id.ex_set_reps);
-						int reps = Integer.parseInt(tv_reps.getText().toString() );
-						if(reps > 0) {
-							tv_reps.setText(String.valueOf( reps - 1 ));
-						}
 						else {
-							setWeightAndReps(context,v);
+							iv_img.setImageBitmap(bmp);
+							TextView tv_reps   = (TextView) v.findViewById(R.id.ex_set_reps);
+							int reps = Integer.parseInt(tv_reps.getText().toString() );
+							if(reps > 0) {
+								tv_reps.setText(String.valueOf( reps - 1 ));
+							}
+							else {
+								setWeightAndReps(context,v);
+							}
 						}
 					}
 				});
@@ -282,16 +284,17 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			if(lastWorkLog != null) { // If we found a previous log, get the next workoutPlan
 				WorkoutPlan lastWorkPlan = lastWorkLog.getWorkoutPlan();
 				boolean found = false;
+				workPlan = null;
 				for(WorkoutPlan wp : workPlans) {
 					if(found) {
 						workPlan = wp;
 					}
-					else if(wp.equals(lastWorkPlan)) {
+					else if(wp.getPlanId() == lastWorkPlan.getPlanId()) {
 						found = true;
 					}
 				}
 				// If the last log was the last plan in the list, start at the beginning again
-				if( !found ) {
+				if( workPlan == null ) {
 					workPlan = workPlans.get(0);
 				}
 			}
@@ -302,6 +305,7 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		}
 		
 		if(workPlan == null) {
+			// TODO this will cause an error I think
 			this.finish();
 		}
 		
@@ -312,8 +316,7 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private void saveWorkout() {
 		ForeignCollection<ExerciseLog> newExLogs = null;
 		try {
-			Date date = new Date();
-			WorkoutLog workLog = new WorkoutLog(date);
+			workLog.setWorkoutPlan(workPlan);
 			workLogDao.create(workLog);
 			newExLogs = workLogDao.queryForId(workLog.getId()).getExerciseLogs();
 		} catch (SQLException e1) {
@@ -325,9 +328,10 @@ public class LogActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		for(ExerciseLog log : exLogs) {
 			ForeignCollection<ExerciseSet> newExSets = null;
 			try {
-				//exLogDao.create(log);
-				newExLogs.add(log);
-				newExSets = exLogDao.queryForId(log.getId()).getSets();
+				ExerciseLog cLog = new ExerciseLog(log);
+				cLog.setWorkoutPlan(workPlan);
+				newExLogs.add(cLog);
+				newExSets = exLogDao.queryForId(cLog.getId()).getSets();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
